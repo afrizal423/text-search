@@ -1,0 +1,20 @@
+{
+    "name": "afrizalmy/tfidf-jaccard",
+    "description": "Package untuk menghitung kesamaan teks dengan metode TF-IDF dan Jaccard Similarity",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Afrizalmy\\TIJ\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "afrizal423",
+            "email": "afrizal2499@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "sastrawi/sastrawi": "^1.2"
+    }
+}
