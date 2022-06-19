@@ -21,7 +21,7 @@ class TextProcessing
         $hasil = [];
         foreach ($arr as $key => $value) {
              // hapus emoji dan simbol
-            $str = preg_replace('/[^\p{L}\p{N}\s]/u', '', $value);
+            $str = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $value);
             // text to lower case
             $str = mb_convert_case($str, MB_CASE_LOWER, "UTF-8");
             array_push($hasil, $str);
@@ -39,7 +39,19 @@ class TextProcessing
     {
         $hasil = [];
         foreach ($arr as $key => $value) {
-            array_push($hasil, explode(" ", $value));
+            $tmp = [];
+            $arrString = explode(" ", $value);
+            foreach ($arrString as $keyArrString => $valueString) {
+                //hapus spasi
+                if (strlen($valueString) > 0) {
+                    // echo $valueString.PHP_EOL;
+                    array_push($tmp, $valueString);
+                }
+                
+            }
+            // echo json_encode(explode(" ", $value)).PHP_EOL;
+            // echo $value.' '.strlen($value).PHP_EOL;
+            array_push($hasil,$tmp);
         }       
         return $hasil;
     }

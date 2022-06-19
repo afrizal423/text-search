@@ -2,6 +2,7 @@
 namespace Afrizalmy\TIJ;
 
 use Afrizalmy\TIJ\tfidf\TextProcessing;
+use Afrizalmy\TIJ\tfidf\PerhitunganTfIdf;
 
 class TfIdfJaccard 
 {
@@ -30,7 +31,10 @@ class TfIdfJaccard
      */
     public function HitungTFIDF(array $str): array
     {
-        return $this->textProcessing($str);
+        $textpro = $this->textProcessing($str);
+        $tfidf = new PerhitunganTfIdf($textpro);
+        $hasil = $tfidf->hitungTfIdf();
+        return $hasil;
     }
 
     
