@@ -23,6 +23,7 @@ class PerhitunganTfIdf
             }
             array_push($hasil, $hitung);
         }
+        // echo json_encode($hasil).' '.$word.PHP_EOL;
         return $hasil;
     }
 
@@ -34,6 +35,7 @@ class PerhitunganTfIdf
                 $df++;
             }
         }
+        // echo json_encode($arrData).' '.$df.PHP_EOL;
         return $df;
     }
 
@@ -41,18 +43,21 @@ class PerhitunganTfIdf
     {
         $jumlahDokumen = count($this->data);
         $dPerDf = $jumlahDokumen/$df;
-        // echo $jumlahDokumen.PHP_EOL;
-        return log10($dPerDf);
+        // echo "d/DF= ".$jumlahDokumen.'/'.$df.'='.$dPerDf.PHP_EOL;
+        // echo "IDF= ".log10($dPerDf).PHP_EOL;
+        return log10($dPerDf)+1;
     }
 
     private function TfIdfnya($doc, $tf, $idf): float
     {
+        // echo "TFIDF= ".$tf[$doc]*$idf.PHP_EOL;
         return $tf[$doc]*$idf;
     }
 
     public function hitungTfIdf(): array
     {
         // echo json_encode($arr);
+        // echo json_encode($this->data).PHP_EOL;
         $hasil = [];
         foreach ($this->data as $keyArr => $values) {
             $tmp = [];
