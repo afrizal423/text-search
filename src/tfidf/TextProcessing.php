@@ -1,5 +1,5 @@
 <?php
-namespace Afrizalmy\TIJ\tfidf;
+namespace Afrizalmy\TextSearch\tfidf;
 
 use Sastrawi\Stemmer\StemmerFactory;
 

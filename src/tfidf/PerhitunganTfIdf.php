@@ -1,5 +1,5 @@
 <?php
-namespace Afrizalmy\TIJ\tfidf;
+namespace Afrizalmy\TextSearch\tfidf;
 
 use stdClass;
 
@@ -7,7 +7,7 @@ class PerhitunganTfIdf
 {
     private $data = [];
 
-    function __construct($dt) {
+    function __construct(array $dt) {
         $this->data = $dt;
     }
 
