@@ -1,7 +1,19 @@
 {
-    "name": "afrizalmy/tfidf-jaccard",
+    "name": "afrizalmy/textsearch-id",
     "description": "Package untuk menghitung kesamaan teks dengan metode TF-IDF dan Jaccard Similarity",
     "type": "library",
+    "homepage": "https://github.com/afrizal423/text-search",
+    "keywords": [
+        "bahasa",
+        "indonesia",
+        "indonesian",
+        "pencarian kata",
+        "pemeringkatan kata"
+    ],
+    "support": {
+        "issues": "https://github.com/afrizal423/text-search/issues",
+        "source": "https://github.com/afrizal423/text-search"
+    },
     "autoload": {
         "psr-4": {
             "Afrizalmy\\TextSearch\\": "src/"
@@ -10,7 +22,7 @@
     "authors": [
         {
             "name": "afrizal423",
-            "email": "afrizal2499@gmail.com"
+            "email": "me@afrizalmy.com"
         }
     ],
     "minimum-stability": "dev",
