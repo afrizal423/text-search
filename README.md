@@ -18,13 +18,13 @@ Package pencarian/pemeringkatan text bahasa Indonesia.
     ```json
     [
         {
-            "similarity":0.74
+            "similarity":1
         },
         {
-            "similarity":0.345
+            "similarity":0.317
         },
         {
-            "similarity":0.345
+            "similarity":0.317
         }
     ]
     ```

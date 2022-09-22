@@ -8,13 +8,13 @@ use Afrizalmy\TextSearch\TfIdfJaccard;
 // jawaban
 // string variasi jawaban (dijadikan array)
 $str = array(
-    "Perpustakaan adalah tempat membaca buku.",
-    "Ada banyak sekali buku di perpustakaan.",
-    "perpustakaan tempat nyaman buat belajar",
+    "tempat membaca buku.",
+    "Ada banyak buku di perpustakaan.",
+    "perpustakaan tempat sumber ilmu.",
 );
 
 // query bertipe string
-$query = "perpustakaan adalah tempat paling enak buat membaca dan banyak buku";
+$query = "tempat membaca dan banyak sekali buku";
 
 $tfidfjaccard = new TfIDFJaccard();
 $hasilTfIdf = $tfidfjaccard->document($str)
