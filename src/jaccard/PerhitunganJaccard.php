@@ -36,20 +36,21 @@ class PerhitunganJaccard
         $jumQGab = 0;
         $jumDocGab = 0;
         foreach ($this->query as $keyQ => $valueQ) {
-            $tmpjumlahdocgab = 0;
             foreach ($this->data[$indexdoc] as $keyd => $valued) {
                 // cari yang sama
                 if ($valueQ->term == $valued->term) {
                     $jumlahIrisan+=$valued->tfidf;
-                    $tmpjumlahdocgab+=$valued->tfidf;
                 }
             }
             $jumQGab+=$valueQ->tfidf;
-            $jumDocGab+=$tmpjumlahdocgab;
+        }
+        foreach ($this->data[$indexdoc] as $keyd => $valued) {
+            $jumDocGab+=$valued->tfidf;
         }
         return [
             "irisan" => round($jumlahIrisan, 3),
-            "gabungan" => round($jumDocGab+$jumQGab, 3)
+            "A" => round($jumQGab, 3),
+            "B" => round($jumDocGab, 3)
         ];
     }
 
@@ -63,10 +64,8 @@ class PerhitunganJaccard
         $hasil = [];
         foreach ($this->data as $key => $value) {
             $ag = $this->irisanGabungan($key);
-            $irisan = $ag["irisan"];
-            $gabungan = $ag["gabungan"];
             $hasil[$key] = (object) [
-                'similarity' => round($irisan/($gabungan-$irisan), 3)
+                'similarity' => $ag['irisan']/($ag['A']+$ag['B']-$ag['irisan'])
             ];
         }
         // echo json_encode($hasil);
