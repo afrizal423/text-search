@@ -54,12 +54,33 @@ class PerhitunganTfIdf
         return $tf[$doc]*$idf;
     }
 
+    private function gabunginAja(): array
+    {
+        $dt = [];
+        foreach ($this->data as $keyArr => $values) {
+            foreach ($values as $key => $value) {
+                $c = array_search($value, $dt);
+                if ($c == "") {
+                    array_push($dt, $value);
+                }
+            }
+        }
+        $data = [];
+        foreach ($this->data as $values) {
+            array_push($data, $dt);
+        }
+        return $data;
+
+    }
+
     public function hitungTfIdf(): array
     {
         // echo json_encode($arr);
+        $dataBaru = $this->gabunginAja();
         // echo json_encode($this->data).PHP_EOL;
+
         $hasil = [];
-        foreach ($this->data as $keyArr => $values) {
+        foreach ($dataBaru as $keyArr => $values) {
             $tmp = [];
             foreach ($values as $key => $value) {
                 // echo $value.' '.$keyArr.' '.$key.PHP_EOL;
@@ -76,7 +97,29 @@ class PerhitunganTfIdf
 
             array_push($hasil, $tmp);
         }
+
+        $hasildatalama = [];
+        foreach ($this->data as $keyArr => $values) {
+            $tmp = [];
+            foreach ($values as $key => $value) {
+                // echo $value.' '.$keyArr.' '.$key.PHP_EOL;
+                $obj = new stdClass;
+
+                $obj->term = $value;
+                $obj->tf = $this->hitungTf($value);
+                $obj->df = $this->hitungDf($obj->tf);
+                $obj->idf = $this->hitungIDF($obj->df);
+                $obj->tfidf = $this->TfIdfnya($keyArr,$obj->tf,$obj->idf);
+
+                array_push($tmp, $obj);
+            }
+
+            array_push($hasildatalama, $tmp);
+        }
         // echo json_encode($hasil);
-        return $hasil;
+        return [
+            "data" => $hasildatalama,
+            "hasil" => $hasil
+        ];
     }
 }

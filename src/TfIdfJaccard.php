@@ -12,6 +12,7 @@ class TfIdfJaccard
     private array $document;
     private string $query;
     private array $hasilTfidf;
+    private array $data;
 
     /**
      * Inisialisasi dokumen
@@ -66,7 +67,8 @@ class TfIdfJaccard
         $textpro = $this->textProcessing($str);
         $tfidf = new PerhitunganTfIdf($textpro);
         $hasil = $tfidf->hitungTfIdf();
-        $this->hasilTfidf = $hasil;
+        $this->hasilTfidf = $hasil['hasil'];
+        $this->data = $hasil['data'];
         return $hasil;
     }
 
@@ -96,7 +98,7 @@ class TfIdfJaccard
      */
     public function HitungJaccard(): array
     {
-        $jc = new PerhitunganJaccard($this->hasilTfidf);
+        $jc = new PerhitunganJaccard($this->hasilTfidf, $this->data);
         return $jc->hitungJaccard();
         
     }

@@ -5,10 +5,12 @@ namespace Afrizalmy\TextSearch\jaccard;
 class PerhitunganJaccard
 {
     private $data = [];
+    private $hasil = [];
     private $query = [];
 
-    function __construct(array $dt) {
+    function __construct(array $hasil, array $dt) {
         $this->data = $dt;
+        $this->hasil = $hasil;
         $this->ambilQuery();
     }
 
@@ -39,13 +41,13 @@ class PerhitunganJaccard
             foreach ($this->data[$indexdoc] as $keyd => $valued) {
                 // cari yang sama
                 if ($valueQ->term == $valued->term) {
-                    $jumlahIrisan+=$valued->tfidf;
+                    $jumlahIrisan+=1;
                 }
             }
-            $jumQGab+=$valueQ->tfidf;
+            $jumQGab+=1;
         }
         foreach ($this->data[$indexdoc] as $keyd => $valued) {
-            $jumDocGab+=$valued->tfidf;
+            $jumDocGab+=1;
         }
         return [
             "irisan" => round($jumlahIrisan, 3),
@@ -68,9 +70,64 @@ class PerhitunganJaccard
                 'similarity' => $ag['irisan']/($ag['A']+$ag['B']-$ag['irisan'])
             ];
         }
-        // echo json_encode($hasil);
         return $hasil;
 
+    }
+
+    /**
+     * buat partisi untuk mencari min max
+     *
+     * @return array
+     */
+    private function buatPartisi(): array
+    {
+        $HaslQuery = [];
+        $hasil = [];
+        foreach ($this->hasil as $key => $value) {
+            $tmp = [];
+            foreach ($this->hasil[$key] as $keyd => $valued) {
+                if ($key == 0) {
+                    array_push($HaslQuery, $valued->tfidf);
+                } else {
+                    array_push($tmp, $valued->tfidf);
+                }
+            }
+            array_push($hasil, $tmp);
+        }
+
+        array_splice($hasil, 0, 1);
+        return [
+            "query" => $HaslQuery,
+            "data" => $hasil
+        ];
+    }
+
+    /**
+     * Perhitungan jaccard dengan rumus mix max
+     *
+     * @return array
+     */
+    private function jaccard2(): array
+    {
+        $dt = $this->buatPartisi();
+        $hasil = [];
+        foreach ($this->data as $doc => $value) {
+            $tmpmin = [];
+            $tmpmax = [];
+            for ($iterasi=0; $iterasi < count($dt['query']); $iterasi++) { 
+                # code...
+                // echo $iterasi.PHP_EOL;
+                $min = min($dt["data"][$doc][$iterasi], $dt['query'][$iterasi]);
+                $max = max($dt["data"][$doc][$iterasi], $dt['query'][$iterasi]);
+                array_push($tmpmin, $min);
+                array_push($tmpmax, $max);
+            }
+
+            $hasil[$doc] = (object) [
+                'similarity' => array_sum($tmpmin) / array_sum($tmpmax)
+            ];
+        }
+        return $hasil;
     }
 
     /**
@@ -80,6 +137,6 @@ class PerhitunganJaccard
      */
     public function hitungJaccard(): array
     {
-        return $this->jaccard1();
+        return $this->jaccard2();
     }
 }
